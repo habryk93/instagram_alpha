@@ -1,0 +1,5 @@
+*.pyc
+/env/
+/.idea/
+/db.sqlite3
+/instagram_alpha/local_settings.py
