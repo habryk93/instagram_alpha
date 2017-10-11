@@ -4,14 +4,6 @@ This application get info about added photos, get photo locations and labels by 
 
 Python3.6+, Django 1.11.6, bower, rabbitmq-server, celery
 
-## Install rabbit sever for celery
-
-```sudo apt-get install rabbitmq-server```
-
-* Start worker for tests--
-
-```celery -A instagram_alpha worker -l info```
-
 ## Install image packages
 
 ```sudo apt-get install libjpeg62 libjpeg62-dev zlib1g-dev libgraphicsmagick++-dev libboost-all-dev imagemagick python-dev libmagickwand-dev```
@@ -19,6 +11,14 @@ Python3.6+, Django 1.11.6, bower, rabbitmq-server, celery
 
 ## Install python packages
 ```pip install -r requirements.txt```
+
+## Install rabbit sever for celery
+
+```sudo apt-get install rabbitmq-server```
+
+## Start worker for tests
+
+```celery -A instagram_alpha worker -l info```
 
 ## Install bower components
 cd dashboard/static
