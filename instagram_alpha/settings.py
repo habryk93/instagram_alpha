@@ -147,7 +147,7 @@ STATICFILES_DIRS = [
 TEMPLATE_DEBUG = False
 LOGOUT_REDIRECT_URL = 'dashboard'
 LOGIN_REDIRECT_URL = 'dashboard'
-THUMBNAIL_DEBUG = True
+THUMBNAIL_DEBUG = False
 
 CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
 CELERY_ACCEPT_CONTENT = ['json']
