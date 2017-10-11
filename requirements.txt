@@ -1,1 +1,8 @@
 Django==1.11.6
+Pillow==4.3.0
+sorl-thumbnail==12.3
+redis==2.10.6
+pgmagick==0.6.7
+Wand==0.4.4
+celery==4.1.0
+django-celery-results==1.0.1

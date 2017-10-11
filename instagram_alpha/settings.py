@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r6!qs3(uyh#y36s^010g^q9^^k-#5)3(us54t#oyc88x-p38^t'
+SECRET_KEY = ''
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,6 +37,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'dashboard',
+    'instagram_auth',
+    'sorl.thumbnail',
+    'widget_tweaks',
+    'django_celery_results'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +60,10 @@ ROOT_URLCONF = 'instagram_alpha.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'dashboard'),
+            os.path.join(BASE_DIR, 'instagram_auth'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -67,6 +75,34 @@ TEMPLATES = [
         },
     },
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'tasks': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/tasks.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'dashboard.tasks': {
+            'handlers': ['tasks'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 WSGI_APPLICATION = 'instagram_alpha.wsgi.application'
 
@@ -100,3 +136,31 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'dashboard', 'media')
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'dashboard', 'static'),
+]
+
+TEMPLATE_DEBUG = False
+LOGOUT_REDIRECT_URL = 'dashboard'
+LOGIN_REDIRECT_URL = 'dashboard'
+THUMBNAIL_DEBUG = True
+
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672//'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_SERIALIZER = 'json'
+
+
+GOOGLE_OAUTH2_CLIENT_SECRETS_JSON = os.path.join(BASE_DIR, 'account_key.json')
+
+GOOGLE_MAPS_API_KEY = ''
+
+if not os.path.isfile(GOOGLE_OAUTH2_CLIENT_SECRETS_JSON):
+    print('Add account_key.json to project root directory.')
+
+if not GOOGLE_MAPS_API_KEY:
+    print('Add google maps api key.')

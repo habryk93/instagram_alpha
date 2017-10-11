@@ -3,3 +3,7 @@
 /.idea/
 /db.sqlite3
 /instagram_alpha/local_settings.py
+/dashboard/static/bower_components/
+/account_key.json
+/logs/
+/dashboard/media/

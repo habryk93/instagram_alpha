@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load i18n %}
+
+{% block body %}
+    {% if user.is_authenticated %}
+        <div class="row text-right add-link-container">
+            <div class="col-12">
+                <a class="btn btn-primary cursor" href="{% url 'picture_add' %}">{% trans 'Add picture' %}</a>
+            </div>
+        </div>
+    {% endif %}
+    <div class="row">
+        {% for picture in pictures %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 picture-box">
+                <div class="content">
+                    <div class="header">
+                        {{ picture.user.username }}
+                    </div>
+                    <div class="image-wrapper">
+                        {% thumbnail picture.image "255x170" crop="center" as image %}
+                            <a href="{% url 'picture_info' slug=picture.slug %}">
+                                <img src="{{ image.url }}" width="{{ image.width }}" height="{{ image.height }}">
+                            </a>
+                        {% empty %}
+                            <p>No image</p>
+                        {% endthumbnail %}
+                    </div>
+                    <div class="footer">
+                        <a href="{% url 'picture_info' slug=picture.slug %}">{{ picture.name }}<a/>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 no-picture-box text-center">
+                {% trans 'No pictures.' %}
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if is_paginated %}
+        <nav aria-label="Pagination" id="pagination">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ page_obj.previous_page_number }}">{% trans 'Previous' %}</a>
+                    </li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="#">{% trans 'Previous' %}</a></li>
+                {% endif %}
+                <li class="page-item"><a class="page-link" href="#">
+                    {% blocktrans with page_numer=page_obj.number num_pages=page_obj.paginator.num_pages %}Page
+                        {{ page_numer }} of {{ num_pages }}.{% endblocktrans %}</a></li>
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ page_obj.next_page_number }}">{% trans 'Next' %}</a></li>
+                {% else %}
+                    <li class="page-item"><a class="page-link" href="#">{% trans 'Next' %}</a></li>
+                {% endif %}
+
+            </ul>
+        </nav>
+    {% endif %}
+
+{% endblock %}

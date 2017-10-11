@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block body %}
+    <div class="row justify-content-center align-items-center">
+        <form action="" method="post" id="picture_delete_form">
+            {% csrf_token %}
+            <h4>{% trans 'Are you sure you want to delete' %} "{{ object }}"?</h4>
+            <button type="submit" class="btn btn-primary cursor">{% trans 'Confirm' %}</button>
+            <a class="btn btn-secondary cursor" href="{% url 'picture_info' slug=object.slug %}">{% trans 'Cancel' %}</a>
+        </form>
+    </div>
+
+{% endblock %}

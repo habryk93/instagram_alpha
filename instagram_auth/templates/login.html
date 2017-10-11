@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block body %}
+    <div class="row justify-content-center align-items-center">
+        <form method="POST" id="login_form">
+            <h2>{% trans 'Login form' %}</h2>
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="form-group">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                {% render_field form.username class+="form-control" placeholder=form.username.label %}
+                <small id="usernameHelp" class="form-text text-muted">{{ form.username.help_text }}</small>
+                {{ form.username.errors }}
+            </div>
+            <div class="form-group">
+                {% render_field form.password class+="form-control" placeholder=form.password.label %}
+                <small id="passwordHelp" class="form-text text-muted">{{ form.password.help_text }}</small>
+                {{ form.password.errors }}
+            </div>
+            <button type="submit" class="btn btn-primary cursor">{% trans 'Login' %}</button>
+        </form>
+    </div>
+{% endblock %}

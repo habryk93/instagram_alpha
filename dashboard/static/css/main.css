@@ -1,0 +1,57 @@
+html {
+    color: #262626;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.picture-box .header, .picture-detail-box .header {
+    padding: 10px;
+}
+.picture-box .footer, .picture-detail-box .footer {
+    padding: 10px;
+}
+.picture-box .content, .picture-detail-box .content {
+    margin-top: 30px;
+    background-color: #fff;
+    border: 1px solid #e6e6e6;
+    border-radius: 3px;
+    margin-left: -1px;
+    margin-right: -1px;
+}
+
+.image-wrapper {
+    background-color: #000000;
+}
+
+.picture-box .image-wrapper {
+    height: 170px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.picture-detail {
+    margin-top: 30px;
+}
+
+#registration_form, #login_form, .no-picture-box, #picture_delete_form {
+    margin-top: 30px;
+}
+
+#pagination {
+    margin-top: 30px;
+}
+
+.add-link-container {
+    margin-top: 20px;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.button-labels {
+    margin-top: 5px;
+}
+
+#landmarks_map {
+    height: 300px;
+}

@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block body %}
+    <form method="POST" id="picture_add_form" enctype="multipart/form-data">
+        <h2>{% trans 'Add picture form' %}</h2>
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+            <div class="form-group">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+        <div class="form-group">
+            {% render_field form.name class+="form-control" placeholder=form.name.label %}
+            <small id="nameHelp" class="form-text text-muted">{{ form.name.help_text }}</small>
+            {{ form.name.errors }}
+        </div>
+        <div class="form-group">
+            {% render_field form.description class+="form-control" placeholder=form.description.label %}
+            <small id="descriptionHelp" class="form-text text-muted">{{ form.description.help_text }}</small>
+            {{ form.description.errors }}
+        </div>
+        <div class="form-group">
+            {% render_field form.image class+="form-control" placeholder=form.image.label %}
+            <small id="imageHelp" class="form-text text-muted">{{ form.image.help_text }}</small>
+            {{ form.image.errors }}
+        </div>
+        <button type="submit" class="btn btn-primary cursor">{% trans 'Add' %}</button>
+    </form>
+{% endblock %}

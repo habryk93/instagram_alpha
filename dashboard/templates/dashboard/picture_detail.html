@@ -1,0 +1,72 @@
+{% extends 'templates/base.html' %}
+{% load i18n %}
+
+{% block body %}
+    {% if user.is_authenticated and object.user == user %}
+        <div class="row text-right add-link-container">
+            <div class="col-12">
+                <a class="btn btn-primary"
+                   href="{% url 'picture_delete' slug=object.slug %}">{% trans 'Delete picture' %}</a>
+            </div>
+        </div>
+    {% endif %}
+    <div class="picture-detail-box">
+        <div class="content">
+            <div class="header">
+                <div class="row">
+                    <div class="col-12 col-sm-6">{{ object.name }}</div>
+                    <div class="col-12 col-sm-6 text-right">
+                        {% trans 'Author' %}: {{ object.user.username }}
+                    </div>
+                </div>
+            </div>
+            <div class="text-center image-wrapper">
+                <img src="{{ object.image.url }}">
+            </div>
+            <div class="footer">
+                <p>{{ picture.description }}</p>
+                {% if object.labels.count %}
+                    <hr>
+                    <h5>{% trans 'Labels' %}:</h5>
+                    {% for label in object.labels.all %}
+                        <button class="btn button-labels">
+                            {{ label.name }} <span class="badge badge-secondary">{{ label.score|floatformat:2 }}</span>
+                        </button>
+                    {% endfor %}
+                {% endif %}
+                {% if object.landmarks.count %}
+                    <hr>
+                    <div class="landmarks-wrapper">
+                        <div id="landmarks_map"></div>
+                    </div>
+
+                    <script>
+                        function initMap() {
+                            var map = new google.maps.Map(document.getElementById('landmarks_map'), {
+                                zoom: 4,
+                                center: new google.maps.LatLng(0, 0),
+                                mapTypeId: 'satellite'
+                            });
+                            var bounds = new google.maps.LatLngBounds();
+
+                            {% for landmark in object.landmarks.all %}
+                                var myLatLng = new google.maps.LatLng({{ landmark.lat }}, {{ landmark.lng }});
+                                var marker = new google.maps.Marker({
+                                    position: myLatLng,
+                                    map: map,
+                                    title: '{{ landmark.name }}'
+                                });
+                                bounds.extend(myLatLng);
+                            {% endfor %}
+
+                            map.fitBounds(bounds);
+                        }
+                    </script>
+                    <script async defer
+                            src="https://maps.googleapis.com/maps/api/js?key={{ google_map_api_key }}&callback=initMap">
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
